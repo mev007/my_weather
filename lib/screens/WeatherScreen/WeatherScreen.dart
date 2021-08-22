@@ -13,25 +13,33 @@ class WeatherScreen extends StatelessWidget {
       Get.put<WeatherController>(WeatherController());
   @override
   Widget build(BuildContext context) {
+    // final heightScreen = Get.height - AppBar().preferredSize.height;
     return Scaffold(
       appBar: AppBar(
         title: Text('Weather App'.tr),
+        centerTitle: true,
         actions: [Utils.changeLocateBtt()],
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 20),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildWeather(),
-                _buildButtons(context),
-              ],
-            ),
+      body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        child: SizedBox(
+          height: Get.height - AppBar().preferredSize.height,
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildWeather(),
+                    _buildButtons(context),
+                  ],
+                ),
+              ),
+              SizedBox(height: 40),
+            ],
           ),
-          SizedBox(height: 50),
-        ],
+        ),
       ),
     );
   }

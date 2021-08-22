@@ -26,9 +26,7 @@ class NetworkManager {
       'appid': API_KEY,
     });
     final response =
-        await http.get(uri).timeout(const Duration(seconds: 3), onTimeout: () {
-      return _onTimeoutLoc();
-    });
+        await http.get(uri).timeout(const Duration(seconds: 3));
     return WeatherJson.fromJson(jsonDecode(response.body));
   }
 
@@ -40,24 +38,9 @@ class NetworkManager {
       'lang': lang,
       'appid': API_KEY,
     });
-    final response = await http.get(uri).timeout(const Duration(seconds: 3), onTimeout: () {
-      return _onTimeoutCity();
-    });
+    final response = await http.get(uri).timeout(const Duration(seconds: 3));
     return WeatherJson.fromJson(jsonDecode(response.body));
     
   }
 
-  _onTimeoutLoc() {
-    // codeError.value = 999;
-    // messageError.value = 'Loc>>>> Time Out occurs';
-    print(">>>Loc>>>> Time Out occurs");
-    // update();
-  }
-
-  _onTimeoutCity() {
-    // codeError.value = 999;
-    // messageError.value = 'City>>>> Time Out occurs';
-    print(">>>City>>>> Time Out occurs");
-    // update();
-  }
 }

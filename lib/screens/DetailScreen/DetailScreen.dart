@@ -19,6 +19,7 @@ class DetailScreen extends GetView<WeatherController> {
     return Scaffold(
       appBar: AppBar(
         title: Text('$city, $country'),
+        centerTitle: true,
         actions: [Utils.changeLocateBtt()],
       ),
       body: ListView.separated(
