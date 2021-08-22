@@ -13,7 +13,6 @@ class WeatherScreen extends StatelessWidget {
       Get.put<WeatherController>(WeatherController());
   @override
   Widget build(BuildContext context) {
-    // final heightScreen = Get.height - AppBar().preferredSize.height;
     return Scaffold(
       appBar: AppBar(
         title: Text('Weather App'.tr),
@@ -64,6 +63,7 @@ class WeatherScreen extends StatelessWidget {
   Widget _buildButtons(BuildContext context) {
     return MediaQuery.of(context).orientation == Orientation.portrait
         ? Column(
+          mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(height: 10),
               RoundedButton(

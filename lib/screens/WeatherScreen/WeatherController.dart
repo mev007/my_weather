@@ -26,6 +26,7 @@ class WeatherController extends GetxController {
 
   Future<void> getWeatherByLocation() async {
     codeError.value = 0;
+    update();
     weather.value = await NetworkManager()
         .getWeatherByLocation()
         .timeout(const Duration(seconds: 10), onTimeout: () {
@@ -39,6 +40,7 @@ class WeatherController extends GetxController {
 
   Future<void> getWeatherByNameCity(String city) async {
     codeError.value = 0;
+    update();
     weather.value = await NetworkManager()
         .getWeatherByNameCity(city)
         .timeout(const Duration(seconds: 3), onTimeout: () {
