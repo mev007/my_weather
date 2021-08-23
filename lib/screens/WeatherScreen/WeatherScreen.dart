@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_weather/screens/DetailScreen/DetailScreen.dart';
 
 import '../../views/RoundedButton.dart';
 import '../../utils/Constants.dart';
 import '../../utils/Utils.dart';
 import '/routes/app_routes.dart';
+import 'Views/DetailView.dart';
 import 'WeatherController.dart';
 import 'views/WeatherView.dart';
 
@@ -35,7 +37,7 @@ class WeatherScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 70),
             ],
           ),
         ),
@@ -52,8 +54,17 @@ class WeatherScreen extends StatelessWidget {
               return CircularProgressIndicator();
             case 200:
               return WeatherView();
+            case 888:
+              Get.snackbar('Error', 'No Internet');
+              return WeatherView();
             default:
-              return Text('Error: ${controller.messageError.value}');
+              return Column(
+                children: [
+                  Text('Error: ${controller.messageError.value}'),
+                  SizedBox(height: 10),
+                  Text('${controller.msgError.value}'),
+                ],
+              );
           }
         },
       ),
@@ -63,7 +74,7 @@ class WeatherScreen extends StatelessWidget {
   Widget _buildButtons(BuildContext context) {
     return MediaQuery.of(context).orientation == Orientation.portrait
         ? Column(
-          mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(height: 10),
               RoundedButton(
@@ -134,6 +145,7 @@ class WeatherScreen extends StatelessWidget {
 
   _buildDialog() {
     final WeatherController ctrl = Get.find<WeatherController>();
+    ctrl.dialogController.text = '';
     var outlineInputBorder = OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(15)),
       borderSide: BorderSide(color: MAIN_COLOR),

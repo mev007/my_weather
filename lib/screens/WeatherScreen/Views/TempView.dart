@@ -6,11 +6,11 @@ import '../../WeatherScreen/WeatherController.dart';
 class TempView extends GetView<WeatherController> {
   @override
   Widget build(BuildContext context) {
-    final icon = controller.weather.value?.list?[0].getIconUrl() ?? '';
+    final icon = controller.weather.value?.list?[0]?.getIconUrl() ?? '';
     final temp =
-        controller.weather.value?.list?[0].main?.temp?.toStringAsFixed(1);
+        controller.weather.value?.list?[0]?.main?.temp?.toStringAsFixed(1);
     final description = controller
-        .weather.value?.list?[0].weather?[0].description
+        .weather.value?.list?[0]?.weather?[0]?.description
         ?.toUpperCase();
     return Container(
       child: Row(

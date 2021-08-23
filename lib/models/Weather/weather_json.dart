@@ -16,6 +16,7 @@ class WeatherJson {
     this.city,
   });
 
+  
   WeatherJson.fromJson(Map<String, dynamic> json) {
     city = json['city'] != null ? City.fromJson(json['city']) : null;
     cod = json['cod'];
@@ -29,29 +30,17 @@ class WeatherJson {
     }
   }
 
-  // factory WeatherJson.fromJson(Map<String, dynamic> json) {
-  //   return WeatherJson(
-  //       cod: json['cod'] as String?,
-  //       message: json['message'] as int?,
-  //       cnt: json['cnt'] as int?,
-  //       list: (json['list'] as List<dynamic>?)
-  //           ?.map((e) => (e as List<dynamic>)
-  //               .map((e) => WeatherList.fromJson(e as Map<String, dynamic>))
-  //               .toList())
-  //           .toList(),
-  //       city: json['city'] == null
+  // factory WeatherJson.fromJson(Map<String, dynamic> json) => WeatherJson(
+  //       cod: json["cod"] == null ? null : json["cod"],
+  //       message: json["message"] == null ? null : json["message"],
+  //       cnt: json["cnt"] == null ? null : json["cnt"],
+  //       list: json["list"] == null
   //           ? null
-  //           : City.fromJson(json['city'] as Map<String, dynamic>),
+  //           : List<WeatherList>.from(
+  //               json["list"].map((x) => WeatherList.fromJson(x))),
+  //       city: json["city"] == null ? null : City.fromJson(json["city"]),
   //     );
-  // }
 
-  // Map<String, dynamic> toJson() => {
-  //       'cod': cod,
-  //       'message': message,
-  //       'cnt': cnt,
-  //       'list': list?.map((e) => e.map((e) => e.toJson()).toList()).toList(),
-  //       'city': city?.toJson(),
-  //     };
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['city'] = this.city;

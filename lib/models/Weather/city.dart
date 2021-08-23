@@ -20,19 +20,28 @@ class City {
     this.sunrise,
     this.sunset,
   });
-
-  factory City.fromJson(Map<String, dynamic> json) => City(
-        id: json['id'] as int?,
-        name: json['name'] as String?,
-        coord: json['coord'] == null
-            ? null
-            : Coord.fromJson(json['coord'] as Map<String, dynamic>),
-        country: json['country'] as String?,
-        population: json['population'] as int?,
-        timezone: json['timezone'] as int?,
-        sunrise: json['sunrise'] as int?,
-        sunset: json['sunset'] as int?,
-      );
+factory City.fromJson(Map<String, dynamic> json) => City(
+        id: json["id"] == null ? null : json["id"],
+        name: json["name"] == null ? null : json["name"],
+        coord: json["coord"] == null ? null : Coord.fromJson(json["coord"]),
+        country: json["country"] == null ? null : json["country"],
+        population: json["population"] == null ? null : json["population"],
+        timezone: json["timezone"] == null ? null : json["timezone"],
+        sunrise: json["sunrise"] == null ? null : json["sunrise"],
+        sunset: json["sunset"] == null ? null : json["sunset"],
+    );
+  // factory City.fromJson(Map<String, dynamic> json) => City(
+  //       id: json['id'] as int?,
+  //       name: json['name'] as String?,
+  //       coord: json['coord'] == null
+  //           ? null
+  //           : Coord.fromJson(json['coord'] as Map<String, dynamic>),
+  //       country: json['country'] as String?,
+  //       population: json['population'] as int?,
+  //       timezone: json['timezone'] as int?,
+  //       sunrise: json['sunrise'] as int?,
+  //       sunset: json['sunset'] as int?,
+  //     );
 
   Map<String, dynamic> toJson() => {
         'id': id,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_weather/models/WeatherModel.dart';
 
 import '../../utils/Constants.dart';
 import '../../models/UserListWeather.dart';
-import '../../models/Weather/weather_list.dart';
 import '../../utils/Utils.dart';
 import '../WeatherScreen/WeatherController.dart';
 
@@ -12,10 +12,9 @@ class DetailScreen extends GetView<WeatherController> {
   Widget build(BuildContext context) {
     final city = controller.weather.value?.city?.name ?? '';
     final country = controller.weather.value?.city?.country ?? '';
-    List<UserListWeather> dataList =
-        buildList(controller.weather.value?.list ?? []);
-    int itemCount = countRowList(controller.weather.value?.list ?? []);
-
+    final list = controller.weather.value?.list ?? [];
+    List<UserListWeather> dataList = buildList(list);
+    int itemCount = countRowList(list);
     return Scaffold(
       appBar: AppBar(
         title: Text('$city, $country'),
@@ -64,8 +63,12 @@ class DetailScreen extends GetView<WeatherController> {
                     SizedBox(height: 5),
                     Expanded(child: Text('time'.tr)),
                     Expanded(child: Text(''), flex: 2),
-                    Expanded(child: Text('Weather conditions'.tr, textAlign: TextAlign.right), flex: 2),
-                    Expanded(child: Text('temp'.tr, textAlign: TextAlign.right)),
+                    Expanded(
+                        child: Text('Weather conditions'.tr,
+                            textAlign: TextAlign.right),
+                        flex: 2),
+                    Expanded(
+                        child: Text('temp'.tr, textAlign: TextAlign.right)),
                     Expanded(child: Text('humidity'.tr)),
                     Expanded(child: Text('wind speed'.tr)),
                     SizedBox(height: 5),
@@ -115,13 +118,13 @@ class DetailScreen extends GetView<WeatherController> {
   }
 
   /// Функція підрахунку кількості днів(рядків) для яких буде прогноз погоди
-  int countRowList(List<WeatherList> weatherList) {
+  int countRowList(List<WeatherModelList?> weatherList) {
     int i = 1;
     String tempD = Utils.getFormattedDateD(
-        DateTime.fromMillisecondsSinceEpoch((weatherList[0].dt ?? 0) * 1000));
+        DateTime.fromMillisecondsSinceEpoch((weatherList[0]?.dt ?? 0) * 1000));
     for (var item in weatherList) {
       String d = Utils.getFormattedDateD(
-          DateTime.fromMillisecondsSinceEpoch((item.dt ?? 0) * 1000));
+          DateTime.fromMillisecondsSinceEpoch((item?.dt ?? 0) * 1000));
       if (d != tempD) {
         i++;
         tempD = d;
@@ -131,15 +134,15 @@ class DetailScreen extends GetView<WeatherController> {
   }
 
   /// Побудова списку обєктів UserListWeather
-  List<UserListWeather> buildList(List<WeatherList> weatherList) {
+  List<UserListWeather> buildList(List<WeatherModelList?> weatherList) {
     List<UserListWeather> dataList = [];
     int i = 0;
     String tempD = Utils.getFormattedDateD(
-        DateTime.fromMillisecondsSinceEpoch((weatherList[0].dt ?? 0) * 1000));
+        DateTime.fromMillisecondsSinceEpoch((weatherList[0]?.dt ?? 0) * 1000));
 
     for (var item in weatherList) {
       DateTime date =
-          DateTime.fromMillisecondsSinceEpoch((item.dt ?? 0) * 1000);
+          DateTime.fromMillisecondsSinceEpoch((item?.dt ?? 0) * 1000);
       String d = Utils.getFormattedDateD(date);
       if (d != tempD) {
         i++;
@@ -149,11 +152,11 @@ class DetailScreen extends GetView<WeatherController> {
         idRecord: i,
         date: date,
         time: Utils.getFormattedDateH(date),
-        icon: Utils.getIconUrl(item.weather?[0].icon ?? ''),
-        description: item.weather?[0].description,
-        temp: item.main?.temp,
-        humidity: item.main?.humidity,
-        speed: item.wind?.speed,
+        icon: Utils.getIconUrl(item?.weather?[0]?.icon ?? ''),
+        description: item?.weather?[0]?.description,
+        temp: item?.main?.temp,
+        humidity: item?.main?.humidity,
+        speed: item?.wind?.speed,
       );
       dataList.add(value);
     }

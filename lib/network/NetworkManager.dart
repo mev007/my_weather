@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_weather/models/WeatherModel.dart';
 
-import '../models/Weather/weather_json.dart';
 import '../utils/Location.dart';
 import '../utils/Constants.dart';
 
@@ -14,7 +14,7 @@ import '../utils/Constants.dart';
 // api.openweathermap.org/data/2.5/forecast?q=London&appid=528d9cb34a7a57d56465d8952b15c364
 
 class NetworkManager {
-  Future<WeatherJson> getWeatherByLocation() async {
+  Future<WeatherModel> getWeatherByLocation() async {
     Location location = Location();
     await location.getCurrentLocation();
     final lang = Get.locale == Locale('en', 'US') ? 'en' : 'ua';
@@ -25,12 +25,11 @@ class NetworkManager {
       'lang': lang,
       'appid': API_KEY,
     });
-    final response =
-        await http.get(uri).timeout(const Duration(seconds: 3));
-    return WeatherJson.fromJson(jsonDecode(response.body));
+    final response = await http.get(uri);
+    return WeatherModel.fromJson(jsonDecode(response.body));
   }
 
-  Future<WeatherJson> getWeatherByNameCity(String? city) async {
+  Future<WeatherModel> getWeatherByNameCity(String? city) async {
     final lang = Get.locale == Locale('en', 'US') ? 'en' : 'ua';
     final uri = Uri.https(WEATHER_URL_DOMAIN, WEATHER_URL_PATH, {
       'q': city,
@@ -38,9 +37,7 @@ class NetworkManager {
       'lang': lang,
       'appid': API_KEY,
     });
-    final response = await http.get(uri).timeout(const Duration(seconds: 3));
-    return WeatherJson.fromJson(jsonDecode(response.body));
-    
+    final response = await http.get(uri);
+    return WeatherModel.fromJson(jsonDecode(response.body));
   }
-
 }

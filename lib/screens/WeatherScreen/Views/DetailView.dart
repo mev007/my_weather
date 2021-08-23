@@ -7,9 +7,9 @@ class DetailView extends GetView<WeatherController> {
   @override
   Widget build(BuildContext context) {
     final pressure =
-        (controller.weather.value?.list?[0].main?.pressure ?? 0) * 0.750062;
-    final humidity = controller.weather.value?.list?[0].main?.humidity;
-    final wind = controller.weather.value?.list?[0].wind?.speed;
+        (controller.weather.value?.list?[0]?.main?.pressure ?? 0) * 0.750062;
+    final humidity = controller.weather.value?.list?[0]?.main?.humidity;
+    final wind = controller.weather.value?.list?[0]?.wind?.speed;
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
