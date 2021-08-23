@@ -55,7 +55,7 @@ class WeatherScreen extends StatelessWidget {
             case 200:
               return WeatherView();
             case 888:
-              Get.snackbar('Error', 'No Internet');
+              // Get.snackbar('Error', 'No Internet');
               return WeatherView();
             default:
               return Column(

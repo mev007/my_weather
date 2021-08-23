@@ -70,7 +70,7 @@ class WeatherList {
       };
 
   String getIconUrl() {
-    final nameImage = weather?[0].icon ?? 'zzz';
+    final nameImage = weather?[0].icon ?? '';
     return WEATHER_IMAGES_URL + nameImage + '.png';
   }
 }
