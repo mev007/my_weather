@@ -17,8 +17,18 @@ class Utils {
     return DateFormat('H').format(dateTime); //15
   }
 
-  static String getIconUrl(String nameIcon) {
-    return WEATHER_IMAGES_URL + nameIcon + '.png';
+  static String? getIconUrl(String nameIcon) {
+    return nameIcon == '' ? null : WEATHER_IMAGES_URL + nameIcon + '.png';
+  }
+
+  static Widget getIconImage(String? icon) {
+    // final fff = Image.network(icon!);
+    try {
+      final ic = (icon == null ? SizedBox.shrink() : Image.network(icon));
+      return ic;
+    } on Exception catch (e) {
+      return SizedBox.shrink();
+    }
   }
 
   static Widget changeLocateBtt() {

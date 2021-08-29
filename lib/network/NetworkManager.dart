@@ -26,7 +26,11 @@ class NetworkManager {
       'appid': API_KEY,
     });
     final response = await http.get(uri);
-    return WeatherModel.fromJson(jsonDecode(response.body));
+    print('>>>###>>> ${response.body}');
+    Map<String, dynamic> userdata = jsonDecode(response.body);
+    final model = WeatherModel.fromJson(userdata);
+    print('>>><<<>>><<< ${model.toString()}');
+    return model;
   }
 
   Future<WeatherModel> getWeatherByNameCity(String? city) async {

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_weather/screens/DetailScreen/DetailScreen.dart';
 
 import '../../views/RoundedButton.dart';
 import '../../utils/Constants.dart';
 import '../../utils/Utils.dart';
 import '/routes/app_routes.dart';
-import 'Views/DetailView.dart';
 import 'WeatherController.dart';
 import 'views/WeatherView.dart';
 
 class WeatherScreen extends StatelessWidget {
   final WeatherController ctrl =
       Get.put<WeatherController>(WeatherController());
+  final _globalKey = GlobalKey<ScaffoldMessengerState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _globalKey,
       appBar: AppBar(
         title: Text('Weather App'.tr),
         centerTitle: true,
@@ -32,12 +32,12 @@ class WeatherScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildWeather(),
+                    _buildWeather(context),
                     _buildButtons(context),
                   ],
                 ),
               ),
-              SizedBox(height: 70),
+              SizedBox(height: 40),
             ],
           ),
         ),
@@ -45,7 +45,7 @@ class WeatherScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildWeather() {
+  Widget _buildWeather(BuildContext context) {
     return Center(
       child: GetBuilder(
         builder: (WeatherController controller) {
@@ -55,7 +55,24 @@ class WeatherScreen extends StatelessWidget {
             case 200:
               return WeatherView();
             case 888:
-              // Get.snackbar('Error', 'No Internet');
+              Future.delayed(Duration.zero, () async {
+                Get.defaultDialog(
+                  title: 'noInternet'.tr,
+                  middleText: 'noInternet_message'.tr,
+                  textConfirm: 'ok'.tr,
+                  confirmTextColor: Colors.white,
+                  buttonColor: MAIN_COLOR,
+                  onConfirm: () => Get.back(),
+                );
+                // Get.snackbar(
+                //   'noInternet'.tr,
+                //   'noInternet_message'.tr,
+                //   snackPosition: SnackPosition.TOP,
+                //   backgroundColor: Colors.red,
+                //   colorText: Colors.white,
+                //   duration: Duration(seconds: 3),
+                // );
+              });
               return WeatherView();
             default:
               return Column(
@@ -143,15 +160,27 @@ class WeatherScreen extends StatelessWidget {
           );
   }
 
-  _buildDialog() {
+  _buildDialog() async {
     final WeatherController ctrl = Get.find<WeatherController>();
+    final checkConnection = await ctrl.checkConnection();
+    if (!checkConnection) {
+      Get.snackbar(
+        'noInternet'.tr,
+        'noInternet_message'.tr,
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: Duration(seconds: 3),
+      );
+      return;
+    }
     ctrl.dialogController.text = '';
     var outlineInputBorder = OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(15)),
       borderSide: BorderSide(color: MAIN_COLOR),
     );
     return Get.defaultDialog(
-      title: 'Введіть назву міста',
+      title: 'Enter the city name'.tr,
       textCancel: 'cancel'.tr,
       textConfirm: 'ok'.tr,
       cancelTextColor: MAIN_COLOR,

@@ -1,0 +1,29 @@
+{
+    "cod": "200",
+    "message": "0",
+    "lllist": [
+        {
+            "dt": 1629784800,
+            "main": {
+                "temp": 289.39,
+                "pressure": 1019.00,
+                "humidity": 47.00
+            },
+            "weather": [
+                {
+                    "description": "broken clouds",
+                    "icon": "04d"
+                }
+            ],
+            "wind": {
+                "speed": 2.7
+            },
+            "dt_txt": "2021-08-24 06:00:00"
+        }
+    ],
+    "city": {
+        "id": 696643,
+        "name": "Poltava",
+        "country": "UA"
+    }
+}

@@ -12,15 +12,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: AppRoutes.WEATHER,
-      getPages: AppPages.list,
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.system,
-      translations: Messages(),
-      locale: Locale('ua', 'UA'),
-      fallbackLocale: Locale('en', 'US')
-    );
+        initialRoute: AppRoutes.WEATHER,
+        getPages: AppPages.list,
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
+        themeMode: ThemeMode.system,
+        translations: Messages(),
+        locale: Locale('ua', 'UA'),
+        fallbackLocale: Locale('en', 'US'));
   }
 }

@@ -5,7 +5,7 @@ class UserListWeather {
   final String? icon;
   final String? description;
   final double? temp;
-  final int? humidity;
+  final double? humidity;
   final double? speed;
 
   UserListWeather({

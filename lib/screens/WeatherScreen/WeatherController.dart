@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:my_weather/models/WeatherModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../network/NetworkManager.dart';
+// import '../../models/Weather/weather_json.dart';
 
 class WeatherController extends GetxController {
   var weather = Rxn<WeatherModel>();
@@ -30,11 +32,13 @@ class WeatherController extends GetxController {
 
   Future<void> saveWeather() async {
     if (weather.value != null && (weather.value?.list?.length ?? 0) > 0) {
-      final copyWeather = WeatherModel.fromJson(weather.value!.toJson());
-      copyWeather.list!.removeRange(3, copyWeather.list!.length - 1);
+      // final sss = weather.value!.toJson();
+      // final copyModel = WeatherModel.fromJson(sss);
+      final copyModel = weather.value!.copyWith();
+      copyModel.list?.removeRange(5, copyModel.list?.length ?? 0);
       await SharedPreferences.getInstance().then((saveWeather) {
-        final jsonWeather = copyWeather.toJson();
-        String stringWeather = jsonEncode(jsonWeather);
+        final jsonWeather = copyModel.toJson();
+        String stringWeather = json.encode(jsonWeather);
         saveWeather.setString('weather', stringWeather);
       });
     }
@@ -42,9 +46,16 @@ class WeatherController extends GetxController {
 
   Future<void> readWeather() async {
     await SharedPreferences.getInstance().then((itemWeather) {
-      Map<String, dynamic> json =
-          jsonDecode(itemWeather.getString('weather') ?? '');
-      weather.value = WeatherModel.fromJson(json);
+      final readData = itemWeather.getString('weather') ?? '';
+      // final json = WeatherModel.fromJson(readData);
+      // weather.value = json;
+
+      print('>>>@@@>>> $readData');
+      final ddd = jsonDecode(readData);
+      print('>>>ddd>>> $ddd');
+      Map<String, dynamic> jsss = ddd;
+      // final ddd = Map<String, dynamic>.from(jsss);
+      weather.value = WeatherModel.fromJson(jsss);
       // update();
     });
   }
@@ -58,7 +69,7 @@ class WeatherController extends GetxController {
     weather.value =
         await NetworkManager().getWeatherByLocation().catchError((error) async {
       codeError.value = 888;
-      msgError.value = '$error \n\n ${int.parse(weather.value?.cod ?? '0')}';
+      msgError.value = error.toString();
       await readWeather();
       update();
     });
@@ -69,20 +80,6 @@ class WeatherController extends GetxController {
       saveWeather();
     }
   }
-  /*
-  Future<void> getWeatherByLocation() async {
-    codeError.value = 0;
-    update();
-    weather.value = await NetworkManager()
-        .getWeatherByLocation()
-        .timeout(const Duration(seconds: 10), onTimeout: () {
-      return _onTimeoutLoc();
-    });
-    codeError.value = int.parse(weather.value?.cod ?? '0');
-    print('>>> code <<< ${codeError.value}');
-    update();
-  }
-  */
 
   Future<void> getWeatherByNameCity(String city) async {
     codeError.value = 0;
@@ -102,17 +99,19 @@ class WeatherController extends GetxController {
     update();
   }
 
-  // _onTimeoutLoc() {
-  //   codeError.value = 999;
-  //   messageError.value = 'Loc>>>> Time Out occurs';
-  //   print("Loc>>>> Time Out occurs");
-  //   update();
-  // }
-
-  // _onTimeoutCity() {
-  //   codeError.value = 999;
-  //   messageError.value = 'City>>>> Time Out occurs';
-  //   print("City>>>> Time Out occurs");
-  //   update();
-  // }
+  ///Перевірка чи є Інтернет
+  Future<bool> checkConnection() async {
+        bool hasConnection;
+        try {
+            final result = await InternetAddress.lookup('google.com');
+            if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                hasConnection = true;
+            } else {
+                hasConnection = false;
+            }
+        } on SocketException catch(_) {
+            hasConnection = false;
+        }
+        return hasConnection;
+  }
 }

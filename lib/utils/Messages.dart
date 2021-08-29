@@ -14,11 +14,15 @@ class Messages extends Translations {
           'time': 'Time',
           'Weather conditions': 'Weather conditions',
           'temp': 'Temperature, ℃',
-          'humidity':'Humidity,%',
+          'humidity': 'Humidity,%',
           'wind speed': 'Wind speed, m/s',
           'cancel': 'Cancel',
           'ok': 'Ok',
           'name': 'Name',
+          'Enter the city name': 'Enter the city name',
+          'noInternet': 'No Internet',
+          'noInternet_message':
+              'No connect: "api.openweathermap.org"\nData is downloaded from the cache',
         },
         'ua_UA': {
           'hello': 'Привіт',
@@ -36,6 +40,10 @@ class Messages extends Translations {
           'cancel': 'Скасувати',
           'ok': 'Ok',
           'name': 'Назва',
+          'Enter the city name': 'Введіть назву міста',
+          'noInternet': 'Інтернету немає',
+          'noInternet_message':
+              'Немає з\'єднання: "api.openweathermap.org"\nДані завантажуються з кешу',
         }
       };
 }
